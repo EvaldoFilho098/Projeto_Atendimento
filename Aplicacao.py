@@ -251,15 +251,15 @@ def Visualizar():
 
     banco = Banco()
     dadosCols = tuple(banco.dados.columns)
-    listagem_v = ttk.Treeview(visualizar_janela,columns = dadosCols, show='headings', height = 50)
-
-    listagem_v.bind('<Double-1>',Mostrar)
+    listagem_v = ttk.Treeview(visualizar_janela,columns = dadosCols, show='headings', height = 25,tag='Teste')
+    
 
     listagem_v.column("Id", width = 25,anchor=CENTER)
     listagem_v.heading("Id",text="ID",anchor=CENTER)
 
     listagem_v.column("Local", width = 150,anchor=CENTER)
     listagem_v.heading("Local",text="Local",anchor=CENTER)
+    listagem_v.tag_configure(tagname = 'Teste',background="grey15",foreground=cor_contraste)
 
     listagem_v.column("Solicitante", width = 100,anchor=CENTER)
     listagem_v.heading("Solicitante",text="Solicitante",anchor=CENTER)
@@ -279,7 +279,7 @@ def Visualizar():
     listagem_v.column("Data", width = 100,anchor=CENTER)
     listagem_v.heading("Data",text="Data",anchor=CENTER)
 
-    listagem_v.pack(side=LEFT)
+    listagem_v.place(x=45,y=35)
 
     #BARRAS DE ROLAGEM DA VISUALIZACAO
     ysb = ttk.Scrollbar(visualizar_janela, orient=VERTICAL, command=listagem_v.yview)
@@ -341,7 +341,7 @@ infos_2Frame.place(x = 540,y=325)
 
 #VISUALIZACAO RAPIDA DE CADASTROS 
 dadosCols = tuple(banco.dados.columns)
-listagem = ttk.Treeview(infos_2Frame,columns = dadosCols, show='headings', height = 10)
+listagem = ttk.Treeview(infos_2Frame,columns = dadosCols, show='headings', height = 10, selectmode='extended')
 
 listagem.bind('<Double-1>',Mostrar)
 
