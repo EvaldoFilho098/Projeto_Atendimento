@@ -13,3 +13,6 @@ setup(
     }},
     executables = [exe]
     )
+
+#comando
+#python setup.py bdist_msi
