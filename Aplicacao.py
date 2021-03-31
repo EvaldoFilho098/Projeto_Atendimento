@@ -251,7 +251,7 @@ def Visualizar():
 
     banco = Banco()
     dadosCols = tuple(banco.dados.columns)
-    listagem_v = ttk.Treeview(visualizar_janela,columns = dadosCols, show='headings', height = 25,tag='Teste')
+    listagem_v = ttk.Treeview(visualizar_janela,columns = dadosCols, show='headings', height = 25)
     
 
     listagem_v.column("Id", width = 25,anchor=CENTER)
@@ -259,7 +259,6 @@ def Visualizar():
 
     listagem_v.column("Local", width = 150,anchor=CENTER)
     listagem_v.heading("Local",text="Local",anchor=CENTER)
-    listagem_v.tag_configure(tagname = 'Teste',background="grey15",foreground=cor_contraste)
 
     listagem_v.column("Solicitante", width = 100,anchor=CENTER)
     listagem_v.heading("Solicitante",text="Solicitante",anchor=CENTER)
