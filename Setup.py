@@ -5,7 +5,11 @@ exe = Executable(
     )
 setup(
     name = "Cadastro de Atendimentos",
-    version = "0.0.2",
+    version = "1.0.0",
     description = "Programinha para cadastrar atendimentos do suporte",
+    options = {"build_exe": {
+    'include_files': ['Icons/Icon.ico','Icons/Logo_.png','Icons/Logo.png'],
+    'include_msvcr': True,
+    }},
     executables = [exe]
     )
