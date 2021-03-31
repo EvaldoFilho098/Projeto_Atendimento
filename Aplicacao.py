@@ -89,8 +89,10 @@ def Inserir():
         banco = Banco()
         ultimo = banco.current
         x = banco.dados["Id"]
-        print(ultimo, x[ultimo-1])
-        id_ = str(int(x[ultimo-1]) + 1)
+        if ultimo:
+            id_ = str(int(x[ultimo-1]) + 1)
+        else:
+            id_ = str(1)
         nova_linha = [id_,local, solicitante, atendimento, certificado, meta, resolv, data]        
         banco.dados.loc[banco.current] = nova_linha
         banco.Atualiza()
