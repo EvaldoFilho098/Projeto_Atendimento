@@ -27,7 +27,6 @@ jan.iconbitmap(default="Icons/icon.ico")
 #Logo
 logo = PhotoImage(file="icons/logo_.png")
 
-
 #FUNÇÕES
 def Mensagem_Aviso(txt):
     ''' Aviso para caso falte alguma informação válida'''
@@ -124,8 +123,10 @@ def Mostrar(event):
     
     try:
         global listagem, lista_atendimentos,lista_certificados,lista_locais,lista_solicitantes
+        #Pega o item selecionado
         nodeId_1 = listagem.focus()
         
+        #Pega as informacoes do item
         id_ = listagem.item(nodeId_1)['values'][0]
         local = listagem.item(nodeId_1)['values'][1]
         solicitante = listagem.item(nodeId_1)['values'][2]
@@ -135,6 +136,7 @@ def Mostrar(event):
         resolvido = listagem.item(nodeId_1)['values'][6]
         data = listagem.item(nodeId_1)['values'][7]
         
+        #Abre a nova janela
         mostrar_jan = Tk()
 
         #CONFIGURACOES ----
@@ -155,55 +157,73 @@ def Mostrar(event):
         x_e = 200
         y_i = 30
 
+        #Insere as labels de Informacoes
+        #Local
         localLabel_ = Label(mostrar_jan,text="Local: ",font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor)
         localLabel_.place(x=x_l, y = y_i)
         localEntry_ = Label(mostrar_jan,text=local,font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor_more)
         localEntry_.place(x=x_e, y = y_i)
+        #Solicitante
         solLabel_ = Label(mostrar_jan,text ="Solicitante: ",font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor)
         solLabel_.place(x=x_l, y = y_i+50)
         solEntry_ = Label(mostrar_jan,text=solicitante,font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor_more)
         solEntry_.place(x=x_e, y = y_i+50)
+        #Atendimento
         atendLabel_ = Label(mostrar_jan,text="Atendiemento: ",font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor)
         atendLabel_.place(x=x_l, y = y_i+100)
         atendEntry_ = Label(mostrar_jan,text = atendimento,font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor_more)
         atendEntry_.place(x=x_e, y = y_i+100)
+        #Certificado
         certLabel_ = Label(mostrar_jan,text="Certificado: ",font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor)
         certLabel_.place(x=x_l, y = y_i+150)
         certEntry_ = Label(mostrar_jan,text = certificado,font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor_more)
         certEntry_.place(x=x_e, y = y_i+150)
+        #Dispositivo Meta
         metaLabel_ = Label(mostrar_jan,text="Dispositivo Meta: ",font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor)
         metaLabel_.place(x=x_l, y = y_i+200)
         meta_Entry_ = Label(mostrar_jan,text=meta,font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor_more)
         meta_Entry_.place(x=x_e, y = y_i+200)
+        #Problema Resolvido
         resolv_Label_ = Label(mostrar_jan,text="Resolvido: ",font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor)
         resolv_Label_.place(x=x_l, y = y_i+250)
         resolv_Entry_ = Label(mostrar_jan,text = resolvido,font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor_more)
         resolv_Entry_.place(x=x_e, y = y_i+250)
+        #Data
         data_Label_ = Label(mostrar_jan,text="Data: ",font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor)
         data_Label_.place(x=x_l, y = y_i+300)
         data_Entry_ = Label(mostrar_jan,text = data,font=fonte_Textos, anchor="w", fg=cor_contraste, bg=cor_more)
         data_Entry_.place(x=x_e, y = y_i+300)
 
+        #Funcao para excluir
         def Excluir():
             global listagem
+            #Abre o banco
             banco = Banco()
 
+            #Encontra o item no banco com base na ID do item selecionado
             x = banco.dados.query("Id == {} ".format(id_))
 
-
+            #Exlui o item do banco
             banco.dados = banco.dados.drop(x.index)
             banco.Atualiza()
             
+            #Atualiza q quantidade de atendimentos
             qtd_atendimentos = banco.current 
             qtd['text'] = qtd_atendimentos
             
+            #Atualiza a lista
             listagem.delete(nodeId_1)
             listagem.pack(side=LEFT)
             
+            #Salva o banco
             banco.Save()
+
+            #mensagem de sucesso
             messagebox.showinfo(title="Sucesso!", message="Cadastro Removido com Sucesso!")
+            #Fecha a janela
             mostrar_jan.destroy()
 
+        #Botao de excluir
         ex_button = Button(mostrar_jan,text="Excluir" , width = 20,bg=cor, fg=cor_contraste,relief="raise",command=Excluir)
         ex_button.place(x=x_e-25,y = y_i+350)
 
@@ -211,9 +231,69 @@ def Mostrar(event):
     except:
         pass
     
-
 def Visualizar():
-    pass
+    #Abre a nova janela
+    visualizar_janela = Tk()
+
+    #CONFIGURACOES ----
+    #Titulo
+    visualizar_janela.title(titulos)
+    #Tamanho da janela
+    visualizar_janela.geometry("{}x{}".format(largura,altura))
+    #Cor de Fundo
+    visualizar_janela.configure(background = cor)
+    #Nao redimensionar
+    visualizar_janela.resizable(width = False, height = False)
+    #Transparencia
+    visualizar_janela.attributes("-alpha",0.95)
+    #Icone
+    visualizar_janela.iconbitmap(default="Icons/icon.ico")
+
+    banco = Banco()
+    dadosCols = tuple(banco.dados.columns)
+    listagem_v = ttk.Treeview(visualizar_janela,columns = dadosCols, show='headings', height = 50)
+
+    listagem_v.bind('<Double-1>',Mostrar)
+
+    listagem_v.column("Id", width = 25,anchor=CENTER)
+    listagem_v.heading("Id",text="ID",anchor=CENTER)
+
+    listagem_v.column("Local", width = 150,anchor=CENTER)
+    listagem_v.heading("Local",text="Local",anchor=CENTER)
+
+    listagem_v.column("Solicitante", width = 100,anchor=CENTER)
+    listagem_v.heading("Solicitante",text="Solicitante",anchor=CENTER)
+
+    listagem_v.column("Atendimento", width = 250,anchor=CENTER)
+    listagem_v.heading("Atendimento",text="Atendimento",anchor=CENTER)
+
+    listagem_v.column("Certificado", width = 150,anchor=CENTER)
+    listagem_v.heading("Certificado",text="Certificado",anchor=CENTER)
+
+    listagem_v.column("Meta", width = 70,anchor=CENTER)
+    listagem_v.heading("Meta",text="Meta",anchor=CENTER)
+
+    listagem_v.column("Resolvido", width = 70,anchor=CENTER)
+    listagem_v.heading("Resolvido",text="Resolvido",anchor=CENTER)
+
+    listagem_v.column("Data", width = 100,anchor=CENTER)
+    listagem_v.heading("Data",text="Data",anchor=CENTER)
+
+    listagem_v.pack(side=LEFT)
+
+    #BARRAS DE ROLAGEM DA VISUALIZACAO
+    ysb = ttk.Scrollbar(visualizar_janela, orient=VERTICAL, command=listagem_v.yview)
+    listagem_v['yscroll'] = ysb.set
+    ysb.pack(side = RIGHT, fill = Y)
+
+    # TEXTOS DOS CABEÇALHO
+    for c in dadosCols:
+        listagem_v.heading(c, text=c.title())
+
+    # INSRINDO OS ITENS
+    for item in dados.values:
+        listagem_v.insert('', 'end', values=tuple(item))
+
 def Sobre():
     messagebox.showinfo(title="SOBRE",message="Software para controle de Suporte\n2021\nMeta Certificado Digital")
 
