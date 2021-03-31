@@ -134,7 +134,6 @@ def Mostrar(event):
         meta = listagem.item(nodeId_1)['values'][5]
         resolvido = listagem.item(nodeId_1)['values'][6]
         data = listagem.item(nodeId_1)['values'][7]
-        condition = "Local == '{}' & Solicitante == '{}' & Atendimento == '{}' & Certificado == '{}' & Meta == '{}' & Resolvido == '{}' & Data == '{}' & Id == '{}'".format(local,solicitante,atendimento,certificado,meta,resolvido,data,str(id_))
         
         mostrar_jan = Tk()
 
@@ -204,70 +203,9 @@ def Mostrar(event):
             banco.Save()
             messagebox.showinfo(title="Sucesso!", message="Cadastro Removido com Sucesso!")
             mostrar_jan.destroy()
-        
-        def Alterar():
 
-            localEntry_ = AutocompleteCombobox(mostrar_jan,font=fonte_Textos, width=15)
-            localEntry_.set_completion_list(lista_locais)
-            localEntry_.place(x=x_e, y = y_i)
-            
-            solEntry_ = AutocompleteCombobox(mostrar_jan,font=fonte_Textos, width=15)
-            solEntry_.set_completion_list(lista_solicitantes)
-            solEntry_.place(x=x_e, y = y_i+50)
-            
-            atendEntry_ = AutocompleteCombobox(mostrar_jan,font=fonte_Textos, width=15)
-            atendEntry_.set_completion_list(lista_atendimentos)
-            atendEntry_.place(x=x_e, y = y_i+100)
-            
-            certEntry_ = AutocompleteCombobox(mostrar_jan,font=fonte_Textos, width=15)
-            certEntry_.set_completion_list(lista_certificados)
-            certEntry_.place(x=x_e, y = y_i+150)
-            
-            meta_Entry_ = AutocompleteCombobox(mostrar_jan,font=fonte_Textos, width=15)
-            meta_Entry_.set_completion_list(["SIM","NÃO"])
-            meta_Entry_.place(x=x_e, y = y_i+200)
-            
-            resolv_Entry_ = AutocompleteCombobox(mostrar_jan,font=fonte_Textos, width=15)
-            resolv_Entry_.set_completion_list(["SIM","NÃO"])
-            resolv_Entry_.place(x=x_e, y = y_i+250)
-            
-            data_Entry_ = Label(mostrar_jan,text = data, font=fonte_Textos,  fg=cor_contraste, bg=cor_more)
-            data_Entry_.place(x=x_e, y = y_i+300)
-
-            banco = Banco()
-            x = banco.dados.query(condition)
-
-            def Aplicar_Mudancas():
-                
-                local = localEntry_.get().upper()
-                banco.dados["Local"][x.index[0]] = local
-                solicitante = solEntry_.get().upper()
-                banco.dados["Solicitante"][x.index[0]] = solicitante
-                atendimento = atendEntry_.get().upper()
-                banco.dados["Atendimento"][x.index[0]] = atendimento
-                certificado = certEntry_.get().upper()
-                banco.dados["Certificado"][x.index[0]] = certificado
-                meta != meta_Entry_.get().upper()
-                banco.dados["Meta"][x.index[0]] = meta 
-                resolvido != resolv_Entry_.get().upper()
-                banco.dados["Resolvido"][x.index[0]] = resolvido
-
-                banco.Atualiza()
-                banco.Save()
-                
-                listagem.delete(nodeId_1)
-                listagem.insert('', 'end', values=(id_,local,solicitante,atendimento,certificado,meta,resolvido,data))
-                listagem.pack(side=LEFT)
-
-                messagebox.showinfo(title="Sucesso!", message="Cadastro Atualizado com Sucesso!")
-
-            ex_button["text"] = "Aplicar"
-            ex_button["comman"] = Aplicar_Mudancas
-
-        alt_button = Button(mostrar_jan, text="Alterar", width = 20,bg=cor, fg=cor_contraste,relief="raise", command=Alterar)
-        alt_button.place(x=x_l, y = y_i+350)
         ex_button = Button(mostrar_jan,text="Excluir" , width = 20,bg=cor, fg=cor_contraste,relief="raise",command=Excluir)
-        ex_button.place(x=x_e+100,y = y_i+350)
+        ex_button.place(x=x_e-25,y = y_i+350)
 
         mostrar_jan.mainloop()
     except:
