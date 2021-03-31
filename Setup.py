@@ -8,7 +8,7 @@ setup(
     version = "1.0.0",
     description = "Programinha para cadastrar atendimentos do suporte",
     options = {"build_exe": {
-    'include_files': ['Icons/Icon.ico','Icons/Logo_.png','Icons/Logo.png'],
+    'include_files': ['Icons'],
     'include_msvcr': True,
     }},
     executables = [exe]
