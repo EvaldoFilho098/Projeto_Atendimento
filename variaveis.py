@@ -28,7 +28,7 @@ titulos = "META CERTIFICADO DIGITAL "
 data = date.today().strftime("%d/%m/%Y")
 
 # LISTAS
-lista_certificados = ['A1','A3 - TOKEN', 'A3 - CARTAO', 'NENHUM']
+lista_certificados = ['A1','A3 - TOKEN', 'A3 - CARTAO','A3 - TOKEN E CARTAO', 'NENHUM']
 lista_solicitantes = ['AGR','CLIENTE']
 lista_atendimentos = ["INSTALAÇÃO DRIVE",
             "INSTALAÇÃO CERTIFICADO",

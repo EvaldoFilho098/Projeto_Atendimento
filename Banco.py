@@ -17,4 +17,6 @@ class Banco():
         self.dados.to_csv('Atendimento.csv', index=False)
     
     def Atualiza(self):
+        self.Save()
+        self.dados = pd.read_csv('Atendimento.csv')
         self.current = self.dados.shape[0]

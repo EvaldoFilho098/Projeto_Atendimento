@@ -96,7 +96,7 @@ def Inserir():
         nova_linha = [id_,local, solicitante, atendimento, certificado, meta, resolv, data]        
         banco.dados.loc[banco.current] = nova_linha
         banco.Atualiza()
-        banco.Save()
+        #banco.Save()
 
         #MOSTRA MENSAGEM DE SUCESSO
         messagebox.showinfo(title="SUCESSO!", message="Atendimento Cadastrado com Sucesso!")
@@ -234,6 +234,8 @@ def Mostrar(event):
         pass
     
 def Visualizar():
+    banco = Banco()
+
     #Abre a nova janela
     visualizar_janela = Tk()
 
@@ -251,10 +253,8 @@ def Visualizar():
     #Icone
     visualizar_janela.iconbitmap(default="Icons/icon.ico")
 
-    banco = Banco()
     dadosCols = tuple(banco.dados.columns)
     listagem_v = ttk.Treeview(visualizar_janela,columns = dadosCols, show='headings', height = 25)
-    
 
     listagem_v.column("Id", width = 25,anchor=CENTER)
     listagem_v.heading("Id",text="ID",anchor=CENTER)
@@ -292,8 +292,10 @@ def Visualizar():
         listagem_v.heading(c, text=c.title())
 
     # INSRINDO OS ITENS
-    for item in dados.values:
+    for item in banco.dados.values:
         listagem_v.insert('', 'end', values=tuple(item))
+    
+    visualizar_janela.mainloop()
 
 def Sobre():
     messagebox.showinfo(title="SOBRE",message="Software para controle de Suporte\n2021\nMeta Certificado Digital")
