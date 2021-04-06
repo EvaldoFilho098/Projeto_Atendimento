@@ -114,6 +114,10 @@ def Inserir():
         qtd['text'] = qtd_atendimentos
         qtd.place(relx=0.5, rely=0.5,anchor=CENTER)
 
+        qtd_h = banco.dados.loc[banco.dados["Data"] == data].count()
+        qtd_hj['text'] = qtd_h[0]
+        qtd_hj.place(relx=0.5, rely=0.5,anchor=CENTER)
+
         #ALTERA A LISTAGEM
         listagem.insert('', 'end', values=tuple(banco.dados.loc[qtd_atendimentos-1]))
         listagem.pack(side=LEFT)
@@ -212,6 +216,9 @@ def Mostrar(event):
             #Atualiza q quantidade de atendimentos
             qtd_atendimentos = banco.current 
             qtd['text'] = qtd_atendimentos
+
+            qtd_h = banco.dados.loc[banco.dados["Data"] == data].count()
+            qtd_hj['text'] = qtd_h[0]
             
             #Atualiza a lista
             listagem.delete(nodeId_1)
@@ -332,11 +339,18 @@ date.place(x=140,y=5)
 
 #Quantidade de Atendimentos
 n_atendiLabel = Label(infosFrame, text="Atendimentos Realizados", fg = cor_contraste, bg=cor, font=fonte_Textos)
-n_atendiLabel.place(x=125,y=50)
+n_atendiLabel.place(x=15,y=50)
 frame_aux = Frame(infosFrame, width = 200, height = 50, bg = "grey8", relief="raise")
-frame_aux.place(x=125, y=85)
+frame_aux.place(x=15, y=85)
 qtd = Label(frame_aux,text=qtd_atendimentos, bg = 'grey8' , fg="red", font=fonte_Destaques)
 qtd.place(relx=0.5, rely=0.5,anchor=CENTER)
+
+n_atendiHLabel = Label(infosFrame, text="Atendimentos de Hoje", fg = cor_contraste, bg=cor, font=fonte_Textos)
+n_atendiHLabel.place(x=235,y=50)
+frame_auxH = Frame(infosFrame, width = 200, height = 50, bg = "grey8", relief="raise")
+frame_auxH.place(x=235, y=85)
+qtd_hj = Label(frame_auxH,text=qtd_h, bg = 'grey8' , fg="red", font=fonte_Destaques)
+qtd_hj.place(relx=0.5, rely=0.5,anchor=CENTER)
 
 #AMBIENTE DE INFORMACOES 2
 infos_2Frame = Frame(jan, width = 450, height = 225, bg=cor,relief="raise")
@@ -384,7 +398,7 @@ for c in dadosCols:
     listagem.heading(c, text=c.title())
 
 # INSRINDO OS ITENS
-for item in dados.values:
+for item in dados.loc[dados["Data"]==data].values:
     listagem.insert('', 'end', values=tuple(item))
 
 #AMBIENTE DE CADASTRO

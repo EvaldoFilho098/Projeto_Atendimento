@@ -1,10 +1,14 @@
 from Banco import Banco
 from datetime import date
 
+data = date.today().strftime("%d/%m/%Y")
+
 #Abrindo arquivos do banco de dados
 banco = Banco()
 qtd_atendimentos = banco.current 
 dados = banco.dados
+qtd_h = dados.loc[dados["Data"] == data].count()
+qtd_h = qtd_h[0]
 
 #VARIAVEIS DE COR, TAMANHO E FONTE
 largura = 1024
@@ -24,8 +28,6 @@ fonte_Titulos= ("Century Gothic",32)
 fonte_Textos= ("Century Gothic",12)
 fonte_Destaques= ("Century Gothic",24)
 titulos = "META CERTIFICADO DIGITAL "
-
-data = date.today().strftime("%d/%m/%Y")
 
 # LISTAS
 lista_certificados = ['A1','A3 - TOKEN', 'A3 - CARTAO','A3 - TOKEN E CARTAO', 'NENHUM']
